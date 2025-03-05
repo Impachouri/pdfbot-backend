@@ -1,8 +1,12 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.routes import router
 from app.database import init_db
+from dotenv import load_dotenv
+
+load_dotenv()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -11,9 +15,9 @@ async def lifespan(app: FastAPI):
     # Any cleanup code here
 
 app = FastAPI(lifespan=lifespan)
-
+FrontEnd = os.getenv("FrontEnd")
 origins = [
-    "http://localhost:5173",  
+    FrontEnd,  
 ]
 
 app.add_middleware(
